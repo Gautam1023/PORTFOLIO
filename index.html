@@ -1721,6 +1721,287 @@
       height: 8px;
       border-radius: 50%;
     }
+
+    /* View toggle (grid / book) */
+    .view-toggle-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--border);
+      margin: 0 4px;
+    }
+    .view-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 3px;
+    }
+    .view-toggle-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .view-toggle-btn:hover {
+      color: var(--text-primary);
+    }
+    .view-toggle-btn.view-toggle-active {
+      background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(6,182,212,0.18));
+      color: var(--cyan-bright);
+      box-shadow: 0 3px 10px rgba(56, 189, 248, 0.2);
+    }
+
+    /* =========================================
+       PROJECT BOOK (page-flip view of "All")
+    ========================================= */
+    .project-book {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+    .book-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      width: 100%;
+    }
+    .book-arrow {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .book-arrow:hover:not(:disabled) {
+      border-color: var(--border-hover);
+      color: var(--cyan-bright);
+      transform: scale(1.08);
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.18);
+    }
+    .book-arrow:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    .book-page-frame {
+      position: relative;
+      width: min(680px, 100%);
+      height: 420px;
+      perspective: 2200px;
+    }
+    .book-page {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform-origin: left center;
+      backface-visibility: hidden;
+      transition: transform 0.65s cubic-bezier(0.45, 0.05, 0.35, 1), opacity 0.5s ease;
+    }
+    .book-page.page-current {
+      transform: rotateY(0deg);
+      opacity: 1;
+      z-index: 5;
+      pointer-events: auto;
+    }
+    .book-page.page-next-stack {
+      transform: rotateY(0deg);
+      opacity: 1;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .book-page.page-flipping-out {
+      transform: rotateY(-150deg);
+      opacity: 0;
+      z-index: 6;
+      pointer-events: none;
+    }
+    .book-page.page-flipping-in {
+      transform: rotateY(150deg);
+      opacity: 0;
+      z-index: 6;
+      pointer-events: none;
+      transition: none;
+    }
+    .book-page.page-hidden {
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .book-page-head {
+      padding: 24px 28px 16px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.04));
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .book-page-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .book-page-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .book-page-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .book-page-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .book-page-category {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--cyan-bright);
+    }
+    .book-page-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .book-page-link:hover {
+      background: rgba(6, 182, 212, 0.12);
+      border-color: rgba(6, 182, 212, 0.4);
+      color: var(--cyan-bright);
+    }
+    .book-page-body {
+      padding: 20px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+    .book-page-summary {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+    .book-page-metrics {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .book-page-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .book-page-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+    .book-footer {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .book-dots {
+      display: flex;
+      gap: 7px;
+    }
+    .book-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.3);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .book-dot:hover {
+      background: rgba(148, 163, 184, 0.6);
+    }
+    .book-dot.dot-active {
+      background: var(--cyan-bright);
+      box-shadow: 0 0 8px rgba(34, 211, 238, 0.7);
+      transform: scale(1.3);
+    }
+    .book-page-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 700px) {
+      .book-page-frame {
+        height: 480px;
+      }
+      .book-stage {
+        gap: 8px;
+      }
+      .book-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 0.85rem;
+      }
+      .book-page-head {
+        padding: 18px 18px 14px;
+      }
+      .book-page-body {
+        padding: 16px 18px;
+      }
+    }
+
     @media (max-width: 560px) {
       .project-gallery {
         grid-template-columns: 1fr;
@@ -2816,11 +3097,40 @@
       <button class="project-filter-chip" data-filter="cloud">
         <i class="fas fa-cloud"></i> Cloud / ETL <span class="filter-count" id="filter-count-cloud">0</span>
       </button>
+      <span class="view-toggle-divider"></span>
+      <div class="view-toggle" id="view-toggle" role="group" aria-label="Switch between grid and book view">
+        <button class="view-toggle-btn view-toggle-active" data-view="grid" aria-label="Grid view" aria-pressed="true">
+          <i class="fas fa-grip"></i>
+        </button>
+        <button class="view-toggle-btn" data-view="book" aria-label="Book view" aria-pressed="false">
+          <i class="fas fa-book-open"></i>
+        </button>
+      </div>
     </div>
 
     <div class="project-gallery" id="project-gallery">
       <!-- Cards injected dynamically via JS -->
     </div>
+
+    <!-- Book / page-flip view -->
+    <div class="project-book" id="project-book" style="display:none;">
+      <div class="book-stage">
+        <button class="book-arrow book-arrow-prev" id="book-prev" aria-label="Previous project">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="book-page-frame" id="book-page-frame">
+          <!-- Pages injected dynamically via JS -->
+        </div>
+        <button class="book-arrow book-arrow-next" id="book-next" aria-label="Next project">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="book-footer">
+        <div class="book-dots" id="book-dots"></div>
+        <span class="book-page-count" id="book-page-count">1 / 1</span>
+      </div>
+    </div>
+
     <p class="project-gallery-empty" id="project-gallery-empty" style="display:none;">No projects in this category yet.</p>
   </section>
 
@@ -3075,6 +3385,37 @@
     const avatarParallaxEl = document.getElementById('avatar-parallax');
     const heroConsoleEl = document.getElementById('hero-console');
     const magneticBtns = Array.from(document.querySelectorAll('.magnetic-btn'));
+    // Each button's resting-state center, cached once and refreshed on resize/scroll —
+    // NOT re-read every frame, because once a button is displaced by translate(),
+    // getBoundingClientRect() would report its *displaced* position, not its rest
+    // position. Re-measuring a moving target each frame caused neighboring buttons
+    // to compound-pull toward each other ("sticking" / mismatched positions).
+    const magneticBtnRest = new Map();
+    function cacheMagneticBtnRects() {
+      magneticBtns.forEach(btn => {
+        const prevTransform = btn.style.transform;
+        btn.style.transform = 'translate(0, 0)'; // measure from true rest position
+        const rect = btn.getBoundingClientRect();
+        magneticBtnRest.set(btn, {
+          cx: rect.left + rect.width / 2,
+          cy: rect.top + rect.height / 2,
+          w: rect.width,
+          h: rect.height
+        });
+        btn.style.transform = prevTransform;
+      });
+    }
+    cacheMagneticBtnRects();
+    window.addEventListener('resize', cacheMagneticBtnRects);
+    let magneticCacheScrollTimer = null;
+    window.addEventListener('scroll', () => {
+      if (magneticCacheScrollTimer) return;
+      magneticCacheScrollTimer = setTimeout(() => {
+        cacheMagneticBtnRects();
+        magneticCacheScrollTimer = null;
+      }, 120);
+    }, { passive: true });
+
     const tiltSelector = '.glass-card:not(.terminal-window)';
     let hoveredTiltCard = null;
 
@@ -3120,30 +3461,39 @@
 
       // Single rAF loop applies every cursor-driven transform once per frame
       function pointerLoop() {
-        // Cursor dot + spotlight (eased trailing motion)
+        // Spotlight glow trails softly behind the cursor (intentional ambient effect)
         if (spotlightEl) {
           spotlightX += (pointer.x - spotlightX) * 0.12;
           spotlightY += (pointer.y - spotlightY) * 0.12;
-          spotlightEl.style.transform = `translate(${spotlightX}px, ${spotlightY}px)`;
+          spotlightEl.style.transform = `translate(${spotlightX}px, ${spotlightY}px) translate(-50%, -50%)`;
         }
+        // Cursor dot/ring tracks the real pointer exactly — no easing — so it always
+        // stays perfectly centered on the actual mouse position, even while moving
+        // or expanding into the larger hover-ring state.
         if (cursorDotEl) {
-          dotX += (pointer.x - dotX) * 0.35;
-          dotY += (pointer.y - dotY) * 0.35;
-          cursorDotEl.style.transform = `translate(${dotX}px, ${dotY}px)`;
+          dotX = pointer.x;
+          dotY = pointer.y;
+          // Include the -50%/-50% centering offset here since setting style.transform
+          // overrides the CSS rule entirely — without this the dot's top-left corner,
+          // not its center, would track the cursor.
+          cursorDotEl.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
         }
 
-        // Magnetic buttons — pull toward cursor when nearby
+        // Magnetic buttons — pull toward cursor only when directly over/near that
+        // specific button. Radius is capped (not scaled by the button's own width)
+        // so wide buttons sitting close together don't have overlapping pull-zones
+        // that both activate for the same cursor position.
         magneticBtns.forEach(btn => {
-          const rect = btn.getBoundingClientRect();
-          if (rect.bottom < 0 || rect.top > window.innerHeight) return; // skip off-screen
-          const cx = rect.left + rect.width / 2;
-          const cy = rect.top + rect.height / 2;
-          const dist = Math.hypot(pointer.x - cx, pointer.y - cy);
-          const radius = Math.max(rect.width, rect.height) * 1.4;
+          const rest = magneticBtnRest.get(btn);
+          if (!rest) return;
+          if (rest.cy < -200 || rest.cy > window.innerHeight + 200) return; // skip far off-screen
+          const dist = Math.hypot(pointer.x - rest.cx, pointer.y - rest.cy);
+          const radius = Math.min(Math.max(rest.w, rest.h) * 0.65, 90);
           if (dist < radius) {
-            const relX = pointer.x - cx;
-            const relY = pointer.y - cy;
-            btn.style.transform = `translate(${relX * 0.25}px, ${relY * 0.35}px)`;
+            const pull = 1 - dist / radius; // 0 at edge of zone, 1 at dead center
+            const relX = pointer.x - rest.cx;
+            const relY = pointer.y - rest.cy;
+            btn.style.transform = `translate(${relX * 0.2 * pull}px, ${relY * 0.25 * pull}px)`;
           } else {
             btn.style.transform = 'translate(0, 0)';
           }
@@ -3387,6 +3737,8 @@
       setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
       }, 1000);
+      // Layout may have shifted slightly once fonts/images finish loading
+      cacheMagneticBtnRects();
     });
 
     // =========================================
@@ -3547,7 +3899,8 @@
 
     // Stats Counter Animation
     function runCounter(el) {
-      const target = parseInt(el.dataset.target);
+      const target = parseInt(el.dataset.target, 10);
+      if (isNaN(target)) return; // safety net: skip elements without a valid numeric target
       let current = 0;
       const increment = Math.ceil(target / 40);
       const timer = setInterval(() => {
@@ -3565,7 +3918,7 @@
         }
       });
     }, { threshold: 0.8 });
-    document.querySelectorAll('[data-target]').forEach(el => countObserver.observe(el));
+    document.querySelectorAll('.stat-number[data-target]').forEach(el => countObserver.observe(el));
 
     // =========================================
     // TERMINAL / CLI SKILLS RENDERER
@@ -3918,22 +4271,37 @@
     }
 
     // =========================================
-    // PROJECT GALLERY: render + filter chips
+    // PROJECT GALLERY + BOOK: shared data, render, filter, view toggle
     // =========================================
     let galleryCardEls = [];
+    let allProjectsData = [];     // full unfiltered repo list (with category/metric attached)
+    let bookFilteredData = [];    // currently-filtered repo list driving the book pages
+    let bookPageEls = [];
+    let bookCurrentIndex = 0;
+    let bookIsFlipping = false;
+    let currentView = 'grid';     // 'grid' | 'book'
+    let currentFilter = 'all';
+
+    function attachCategoryAndMetric(repo, i) {
+      const category = repo.category || inferCategory(repo);
+      const metric = repo.metric || generateMetric(repo, category);
+      return Object.assign({}, repo, { category, metric, _iconIndex: i });
+    }
 
     function renderGallery(repos) {
+      allProjectsData = repos.map((r, i) => attachCategoryAndMetric(r, i));
+
       const gallery = document.getElementById('project-gallery');
-      if (!gallery) return;
-      gallery.innerHTML = '';
-      galleryCardEls = repos.map((r, i) => createGalleryCard(r, i));
-      galleryCardEls.forEach(card => gallery.appendChild(card));
+      if (gallery) {
+        gallery.innerHTML = '';
+        galleryCardEls = allProjectsData.map((r, i) => createGalleryCard(r, i));
+        galleryCardEls.forEach(card => gallery.appendChild(card));
+      }
 
       // Update filter chip counts
-      const counts = { all: repos.length, python: 0, sql: 0, ml: 0, cloud: 0 };
-      galleryCardEls.forEach(card => {
-        const cat = card.dataset.category;
-        if (counts[cat] !== undefined) counts[cat]++;
+      const counts = { all: allProjectsData.length, python: 0, sql: 0, ml: 0, cloud: 0 };
+      allProjectsData.forEach(r => {
+        if (counts[r.category] !== undefined) counts[r.category]++;
       });
       Object.keys(counts).forEach(key => {
         const el = document.getElementById(`filter-count-${key}`);
@@ -3944,15 +4312,29 @@
     }
 
     function applyGalleryFilter(filter) {
+      currentFilter = filter;
       const emptyMsg = document.getElementById('project-gallery-empty');
+
+      // Grid filtering
       let visibleCount = 0;
       galleryCardEls.forEach(card => {
         const matches = filter === 'all' || card.dataset.category === filter;
         card.classList.toggle('card-hidden', !matches);
         if (matches) visibleCount++;
       });
-      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-      // Recalculate scroll-driven rail/timeline offsets now that layout height changed
+
+      // Book filtering — rebuild the page set for the new filter
+      bookFilteredData = filter === 'all'
+        ? allProjectsData
+        : allProjectsData.filter(r => r.category === filter);
+
+      if (currentView === 'grid') {
+        if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+      } else {
+        if (emptyMsg) emptyMsg.style.display = bookFilteredData.length === 0 ? 'block' : 'none';
+        buildBookPages();
+      }
+
       updateScrollEffects();
     }
 
@@ -3961,6 +4343,204 @@
         document.querySelectorAll('.project-filter-chip').forEach(c => c.classList.remove('filter-chip-active'));
         chip.classList.add('filter-chip-active');
         applyGalleryFilter(chip.dataset.filter);
+      });
+    });
+
+    // =========================================
+    // BOOK VIEW: page-flip through "All" (or filtered) projects
+    // =========================================
+    function createBookPage(repo, i) {
+      const lang = repo.language || 'Python';
+      const color = langColors[lang] || '#60a5fa';
+      const icon = projectIcons[repo._iconIndex % projectIcons.length];
+      const topics = repo.topics && repo.topics.length > 0
+        ? repo.topics.slice(0, 4)
+        : [lang.toLowerCase(), 'data', 'pipeline'];
+      const categoryLabelMap = { python: 'Python', sql: 'SQL', ml: 'ML / AI', cloud: 'Cloud / ETL' };
+
+      const page = document.createElement('div');
+      page.className = 'book-page';
+      page.dataset.index = i;
+      page.innerHTML = `
+        <div class="book-page-head">
+          <div class="book-page-icon-row">
+            <div class="book-page-icon">${icon}</div>
+            <div class="book-page-title-wrap">
+              <span class="book-page-category">${categoryLabelMap[repo.category] || repo.category}</span>
+              <div class="book-page-title">${repo.name.replace(/-/g, ' ')}</div>
+            </div>
+          </div>
+          <a href="${repo.html_url}" target="_blank" class="book-page-link" title="View source on GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <div class="book-page-body">
+          <p class="book-page-summary">${repo.description || 'Custom data analytics pipeline utilizing Python models, advanced SQL tables, and reporting dashboard layouts.'}</p>
+          <div class="book-page-metrics">
+            <div class="gallery-metric-chart">
+              <div class="gallery-metric-bar" style="--metric-color:${metricColors[i % metricColors.length]}; height:55%;"></div>
+              <div class="gallery-metric-bar" style="--metric-color:${metricColors[i % metricColors.length]}; height:80%;"></div>
+              <div class="gallery-metric-bar" style="--metric-color:${metricColors[i % metricColors.length]}; height:40%;"></div>
+              <div class="gallery-metric-bar" style="--metric-color:${metricColors[i % metricColors.length]}; height:95%;"></div>
+              <div class="gallery-metric-bar" style="--metric-color:${metricColors[i % metricColors.length]}; height:65%;"></div>
+            </div>
+            <div class="gallery-metric-stat">
+              <span class="gallery-metric-value">${repo.metric.value}</span>
+              <span class="gallery-metric-label">${repo.metric.label}</span>
+            </div>
+          </div>
+          <div class="book-page-badges">
+            ${topics.map(t => `<span class="tag">${t}</span>`).join('')}
+          </div>
+          <div class="book-page-footer">
+            <div class="detail-item"><span class="lang-indicator" style="background:${color}"></span><span>${lang}</span></div>
+            <div class="detail-item"><i class="far fa-star"></i><span>${repo.stargazers_count}</span></div>
+            <div class="detail-item"><i class="fas fa-code-fork"></i><span>${repo.forks_count}</span></div>
+          </div>
+        </div>
+      `;
+      return page;
+    }
+
+    function buildBookPages(resetIndex = true) {
+      const frame = document.getElementById('book-page-frame');
+      const dotsEl = document.getElementById('book-dots');
+      if (!frame) return;
+
+      frame.innerHTML = '';
+      bookPageEls = bookFilteredData.map((r, i) => createBookPage(r, i));
+      bookPageEls.forEach(p => frame.appendChild(p));
+
+      if (dotsEl) {
+        dotsEl.innerHTML = bookFilteredData.map((_, i) =>
+          `<div class="book-dot" data-page="${i}"></div>`
+        ).join('');
+        dotsEl.querySelectorAll('.book-dot').forEach(dot => {
+          dot.addEventListener('click', () => goToBookPage(parseInt(dot.dataset.page, 10)));
+        });
+      }
+
+      if (resetIndex) bookCurrentIndex = 0;
+      bookCurrentIndex = Math.min(bookCurrentIndex, Math.max(bookFilteredData.length - 1, 0));
+      renderBookState();
+    }
+
+    function renderBookState() {
+      bookPageEls.forEach((page, i) => {
+        page.classList.remove('page-current', 'page-next-stack', 'page-hidden', 'page-flipping-out', 'page-flipping-in');
+        if (i === bookCurrentIndex) {
+          page.classList.add('page-current');
+        } else if (i > bookCurrentIndex) {
+          page.classList.add('page-next-stack');
+        } else {
+          page.classList.add('page-hidden');
+        }
+      });
+
+      document.querySelectorAll('.book-dot').forEach((dot, i) => {
+        dot.classList.toggle('dot-active', i === bookCurrentIndex);
+      });
+
+      const countEl = document.getElementById('book-page-count');
+      if (countEl) {
+        countEl.textContent = bookFilteredData.length > 0
+          ? `${bookCurrentIndex + 1} / ${bookFilteredData.length}`
+          : '0 / 0';
+      }
+
+      const prevBtn = document.getElementById('book-prev');
+      const nextBtn = document.getElementById('book-next');
+      if (prevBtn) prevBtn.disabled = bookCurrentIndex <= 0;
+      if (nextBtn) nextBtn.disabled = bookCurrentIndex >= bookFilteredData.length - 1;
+    }
+
+    function flipBook(direction) {
+      if (bookIsFlipping) return; // ignore clicks mid-animation
+      const nextIndex = bookCurrentIndex + direction;
+      if (nextIndex < 0 || nextIndex >= bookPageEls.length) return;
+
+      bookIsFlipping = true;
+      const outgoing = bookPageEls[bookCurrentIndex];
+      const incoming = bookPageEls[nextIndex];
+
+      if (direction > 0) {
+        // Flipping forward: outgoing page rotates away to the left
+        outgoing.classList.remove('page-current', 'page-hidden', 'page-next-stack');
+        outgoing.classList.add('page-flipping-out');
+        incoming.classList.remove('page-next-stack', 'page-hidden');
+        incoming.classList.add('page-current');
+      } else {
+        // Flipping backward: incoming page rotates in from the left
+        incoming.classList.remove('page-hidden', 'page-next-stack', 'page-flipping-out');
+        incoming.style.transition = 'none';
+        incoming.classList.add('page-flipping-in');
+        // Force reflow so the "from" transform applies before animating to current
+        void incoming.offsetWidth;
+        incoming.style.transition = '';
+        requestAnimationFrame(() => {
+          incoming.classList.remove('page-flipping-in');
+          incoming.classList.add('page-current');
+        });
+        outgoing.classList.remove('page-current');
+        outgoing.classList.add('page-next-stack');
+      }
+
+      bookCurrentIndex = nextIndex;
+
+      setTimeout(() => {
+        bookIsFlipping = false;
+        renderBookState();
+      }, 680);
+    }
+
+    function goToBookPage(index) {
+      if (bookIsFlipping || index === bookCurrentIndex) return;
+      const direction = index > bookCurrentIndex ? 1 : -1;
+      // Step one page at a time toward the target so the flip animation always plays
+      const step = () => {
+        if (bookCurrentIndex === index) return;
+        flipBook(direction);
+        if (bookCurrentIndex !== index) setTimeout(step, 700);
+      };
+      step();
+    }
+
+    document.getElementById('book-prev')?.addEventListener('click', () => flipBook(-1));
+    document.getElementById('book-next')?.addEventListener('click', () => flipBook(1));
+
+    // =========================================
+    // VIEW TOGGLE: grid <-> book
+    // =========================================
+    document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        if (view === currentView) return;
+        currentView = view;
+
+        document.querySelectorAll('.view-toggle-btn').forEach(b => {
+          b.classList.toggle('view-toggle-active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+
+        const gallery = document.getElementById('project-gallery');
+        const book = document.getElementById('project-book');
+        const emptyMsg = document.getElementById('project-gallery-empty');
+
+        if (view === 'book') {
+          gallery.style.display = 'none';
+          book.style.display = 'flex';
+          bookFilteredData = currentFilter === 'all'
+            ? allProjectsData
+            : allProjectsData.filter(r => r.category === currentFilter);
+          buildBookPages();
+          if (emptyMsg) emptyMsg.style.display = bookFilteredData.length === 0 ? 'block' : 'none';
+        } else {
+          book.style.display = 'none';
+          gallery.style.display = 'grid';
+          const visibleCount = galleryCardEls.filter(c => !c.classList.contains('card-hidden')).length;
+          if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+        updateScrollEffects();
       });
     });
 
